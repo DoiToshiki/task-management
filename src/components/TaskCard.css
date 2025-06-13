@@ -1,0 +1,77 @@
+.task-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  /* ← 隣のカードとの余白 */
+  justify-items: center;
+}
+
+.task-card {
+  width: 100%;
+  max-width: 250px;
+  background: #4d4b4b;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-3px);
+}
+
+
+.task-main {
+  flex-grow: 1;
+}
+
+.task-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.badge {
+  background: #444;
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+}
+
+.due-date {
+  font-weight: bold;
+}
+
+.task-status {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.task-card {
+  position: relative;
+  /* ← 重要 */
+  /* 既存のスタイルはそのまま */
+}
+
+.urgent-icon {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 20px;
+  height: auto;
+  z-index: 10;
+}
+
+.badge {
+  background: #eee;
+  color: #333;
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  margin-right: 0.3rem;
+  font-size: 0.85rem;
+}
