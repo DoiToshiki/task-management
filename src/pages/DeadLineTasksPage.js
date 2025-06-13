@@ -3,42 +3,43 @@ import TaskForm from '../components/TaskForm';
 import TaskCard from '../components/TaskCard';
 import TaskDetailModal from '../components/TaskDetailModal';
 import FilterBar from '../components/FilterBar';
+import { getTasks, saveTasks } from '../utils/taskStorage';
 
 function DeadlineTasksPage() {
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [filter, setFilter] = useState({ status: 'すべて', priority: 'すべて' });
-  const [selectedUrgent, setSelectedUrgent] = useState('');
   const [selectedRole, setSelectedRole] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+
   const filteredTasks = tasks.filter((task) => {
     const matchStatus = filter.status === 'すべて' || task.status === filter.status;
     const matchPriority = filter.priority === 'すべて' || task.priority === filter.priority;
     const matchRole = selectedRole === '' || task.tags?.role === selectedRole;
     const matchCategory = selectedCategory === '' || task.tags?.category === selectedCategory;
-
     return matchStatus && matchPriority && matchRole && matchCategory;
   });
 
+  const sortedTasks = [...filteredTasks].sort((a, b) => {
+    const dateA = new Date(a.dueDate || '9999-12-31');
+    const dateB = new Date(b.dueDate || '9999-12-31');
+    return dateA - dateB;
+  });
 
-
-  // 初回読み込み（localStorage）
   useEffect(() => {
-    const stored = localStorage.getItem('deadlineTasks');
-    if (stored) setTasks(JSON.parse(stored));
+    getTasks('deadlineTasks').then((storedTasks) => {
+      if (storedTasks) setTasks(storedTasks);
+    });
   }, []);
 
-  // 保存（変更があったとき）
   useEffect(() => {
-    localStorage.setItem('deadlineTasks', JSON.stringify(tasks));
+    saveTasks('deadlineTasks', tasks);
   }, [tasks]);
 
-  // タスク追加
   const addTask = (task) => {
     setTasks([...tasks, task]);
   };
 
-  // タスク削除
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
@@ -48,13 +49,10 @@ function DeadlineTasksPage() {
       t.id === updatedTask.id ? updatedTask : t
     );
     setTasks(newTasks);
-    localStorage.setItem('deadlineTasks', JSON.stringify(newTasks));
   };
 
-
-
   const closeModal = () => {
-    setSelectedTask(null); // ← モーダルを閉じるにはタスクを選択状態から外せばいい
+    setSelectedTask(null);
   };
 
   return (
@@ -70,20 +68,15 @@ function DeadlineTasksPage() {
         setSelectedCategory={setSelectedCategory}
       />
 
-
       <div className="task-list">
-        {filteredTasks.map((task) => {
-
-          return (
-            <TaskCard
-              key={task.id}
-              task={task}
-              onDelete={() => deleteTask(task.id)}
-              onClick={() => setSelectedTask(task)}
-            />
-          );
-        })}
-
+        {sortedTasks.map((task) => (
+          <TaskCard
+            key={task.id}
+            task={task}
+            onDelete={() => deleteTask(task.id)}
+            onClick={() => setSelectedTask(task)}
+          />
+        ))}
       </div>
 
       {selectedTask && (
