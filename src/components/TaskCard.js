@@ -23,36 +23,48 @@ function TaskCard({ task, onClick, onDelete }) {
     }
   };
 
-
   return (
-    <div className="task-card" onClick={onClick} style={{ borderLeft: `6px solid ${getPriorityColor(task.priority)}` }}>
-      {
-        task.tags?.urgent && (
-          <img
-            src="/urgent-icon.png"
-            alt="urgent"
-            className="urgent-icon"
-          />
-        )
-      }
+    <div
+      className="task-card"
+      onClick={onClick}
+      style={{ borderLeft: `6px solid ${getPriorityColor(task.priority)}` }}
+    >
+      {task.tags?.urgent && (
+        <img src="/urgent-icon.png" alt="urgent" className="urgent-icon" />
+      )}
+
       <div className="task-main">
+        {/* 🔽 締め切り日を先に表示 */}
+        {task.dueDate && <div className="due-date">{task.dueDate}</div>}
+
         <h4>{task.title}</h4>
+
         <div className="task-meta">
           <span className="badge">{task.priority}</span>
-          {task.dueDate && <span className="due-date">{task.dueDate}</span>}
           {task.tags?.role && <span className="badge">{task.tags.role}</span>}
-          {task.tags?.category && <span className="badge">{task.tags.category}</span>}
+          {task.tags?.category && (
+            <span className="badge">{task.tags.category}</span>
+          )}
         </div>
 
-        <div className="task-status" style={{ color: getStatusColor(task.status) }}>
+        <div
+          className="task-status"
+          style={{ color: getStatusColor(task.status) }}
+        >
           {task.status}
         </div>
       </div>
-      <button onClick={(e) => { e.stopPropagation(); onDelete(); }}>🗑</button>
+
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete();
+        }}
+      >
+        🗑
+      </button>
     </div>
   );
 }
 
 export default TaskCard;
-
-
