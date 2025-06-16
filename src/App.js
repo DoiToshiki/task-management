@@ -1,18 +1,30 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import DeadlineTasksPage from './pages/DeadLineTasksPage';
 import PersistentTasksPage from './pages/PersistentTasksPage';
 import './App.css';
+
+function Navigation() {
+  const location = useLocation();
+
+  return (
+    <nav className="nav-bar">
+      <Link to="/tasks" className={location.pathname === '/tasks' ? 'active-tab' : ''}>
+        期限付きタスク
+      </Link>
+      <Link to="/habit" className={location.pathname === '/habit' ? 'active-tab' : ''}>
+        永続タスク
+      </Link>
+    </nav>
+  );
+}
 
 function App() {
   return (
     <Router>
       <div className="app-container">
         <header className="app">
-          <nav className="nav-bar"> {/* ← CSSに合わせて className を nav-bar に */}
-            <Link to="/tasks">期限付きタスク</Link>
-            <Link to="/habit">永続タスク</Link>
-          </nav>
+          <Navigation />
         </header>
 
         <main className="content">
@@ -21,7 +33,6 @@ function App() {
             <Route path="/habit" element={<PersistentTasksPage />} />
           </Routes>
         </main>
-
       </div>
     </Router>
   );

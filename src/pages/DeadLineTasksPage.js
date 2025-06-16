@@ -4,6 +4,7 @@ import TaskCard from '../components/TaskCard';
 import TaskDetailModal from '../components/TaskDetailModal';
 import FilterBar from '../components/FilterBar';
 import { getTasks, saveTasks } from '../utils/taskStorage';
+import { saveTaskToDB } from '../utils/idb';
 
 function DeadlineTasksPage() {
   const [tasks, setTasks] = useState([]);
@@ -41,7 +42,9 @@ function DeadlineTasksPage() {
   };
 
   const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+    saveTaskToDB('persistentTasks', updatedTasks); // ← 明示的に保存する
   };
 
   const handleTaskUpdate = (updatedTask) => {

@@ -4,16 +4,19 @@ import {
   getAllTasksFromDB,
 } from './idb';
 
-/**
- * タスク全体を保存（localStorage + IndexedDB）
- */
 export const saveTasks = async (key, tasks) => {
   // LocalStorage保存
   localStorage.setItem(key, JSON.stringify(tasks));
 
-  // IndexedDB保存（全上書き）
+  // IndexedDB全削除（keyに該当する全タスク）
+  const existing = await getAllTasksFromDB(key);
+  for (const task of existing) {
+    await deleteTaskFromDB(key, task.id);
+  }
+
+  // IndexedDB再保存
   for (const task of tasks) {
-    await saveTaskToDB(key, task); // key: "persistentTasks" など
+    await saveTaskToDB(key, task);
   }
 };
 

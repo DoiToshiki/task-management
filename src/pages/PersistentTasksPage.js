@@ -4,6 +4,7 @@ import TaskCard from '../components/TaskCard';
 import TaskDetailModal from '../components/TaskDetailModal';
 import FilterBar from '../components/FilterBar';
 import { getTasks, saveTasks } from '../utils/taskStorage';
+import { saveTaskToDB } from '../utils/idb';
 
 function PersistentTasksPage() {
   const [tasks, setTasks] = useState([]);
@@ -35,7 +36,9 @@ function PersistentTasksPage() {
   };
 
   const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+    saveTasks('persistentTasks', updatedTasks); // ← saveTasksを直接呼び出す
   };
 
   const handleTaskUpdate = (updatedTask) => {
