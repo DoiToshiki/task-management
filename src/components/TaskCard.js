@@ -33,11 +33,18 @@ function TaskCard({ task, onClick, onDelete }) {
         <img src="/urgent-icon.png" alt="urgent" className="urgent-icon" />
       )}
 
-      <div className="task-main">
-        {/* 🔽 締め切り日を先に表示 */}
-        {task.dueDate && <div className="due-date">{task.dueDate}</div>}
+      <div className="task-status-top" style={{ color: getStatusColor(task.status) }}>
+        {task.status}
+      </div>
 
-        <h4>{task.title}</h4>
+      <div className="task-main">
+        {task.dueDate && (
+          <div className="task-due">
+            <span className="due-label">📅{task.dueDate}</span>
+          </div>
+        )}
+
+        <h4 className="task-title">{task.title}</h4>
 
         <div className="task-meta">
           <span className="badge">{task.priority}</span>
@@ -46,13 +53,7 @@ function TaskCard({ task, onClick, onDelete }) {
             <span className="badge">{task.tags.category}</span>
           )}
         </div>
-
-        <div
-          className="task-status"
-          style={{ color: getStatusColor(task.status) }}
-        >
-          {task.status}
-        </div>
+        <div> </div>
       </div>
 
       <button

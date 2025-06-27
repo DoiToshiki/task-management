@@ -18,6 +18,8 @@
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.2s ease;
+  position: relative;
+  /* ← 重要 */
 }
 
 .task-card:hover {
@@ -37,9 +39,13 @@
 }
 
 .badge {
-  background: #444;
+  background: #eee;
+  color: #333;
   border-radius: 4px;
   padding: 0.2rem 0.5rem;
+  margin-right: 0.3rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
 }
 
 .due-date {
@@ -48,14 +54,8 @@
 
 .task-status {
   margin-top: 0.4rem;
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: #aaa;
-}
-
-.task-card {
-  position: relative;
-  /* ← 重要 */
-  /* 既存のスタイルはそのまま */
 }
 
 .urgent-icon {
@@ -67,11 +67,23 @@
   z-index: 10;
 }
 
-.badge {
-  background: #eee;
-  color: #333;
-  border-radius: 4px;
-  padding: 0.2rem 0.5rem;
-  margin-right: 0.3rem;
+.task-due {
   font-size: 0.85rem;
+  color: #ccc;
+  margin-bottom: 4px;
+}
+
+.task-title {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.task-status-top {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.85rem;
+  font-weight: bold;
 }
