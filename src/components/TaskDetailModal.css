@@ -12,12 +12,16 @@
 }
 
 .modal {
-  background: white;
+  background: #e3f2fd;
+  color: #1976d2;
   padding: 2rem;
-  border-radius: 10px;
-  width: 300px;
-  max-width: 90%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  width: 340px;
+  max-width: 95vw;
+  max-height: 90vh;
+  box-shadow: 0 2px 16px #90caf9cc;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .close-btn {
@@ -27,16 +31,6 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
-
-.modal {
-  background: #1e1e1e;
-  color: #fff;
-}
-
-.close-btn {
-  background-color: #444;
-  color: #fff;
 }
 
 .modal label {

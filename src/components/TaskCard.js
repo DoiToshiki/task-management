@@ -28,6 +28,7 @@ function TaskCard({ task, onClick, onDelete }) {
       className="task-card"
       onClick={onClick}
       style={{ borderLeft: `6px solid ${getPriorityColor(task.priority)}` }}
+      tabIndex={0}
     >
       {task.tags?.urgent && (
         <img src="/urgent-icon.png" alt="urgent" className="urgent-icon" />
@@ -36,6 +37,17 @@ function TaskCard({ task, onClick, onDelete }) {
       <div className="task-status-top" style={{ color: getStatusColor(task.status) }}>
         {task.status}
       </div>
+
+      <button
+        className="delete-btn"
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete();
+        }}
+        title="削除"
+      >
+        🗑
+      </button>
 
       <div className="task-main">
         {task.dueDate && (
@@ -53,17 +65,7 @@ function TaskCard({ task, onClick, onDelete }) {
             <span className="badge">{task.tags.category}</span>
           )}
         </div>
-        <div> </div>
       </div>
-
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete();
-        }}
-      >
-        🗑
-      </button>
     </div>
   );
 }

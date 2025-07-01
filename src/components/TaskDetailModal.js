@@ -14,6 +14,12 @@ function TaskDetailModal({ task, onClose, onUpdate }) {
     setEditableTask((prev) => ({ ...prev, [name]: value }));
   };
 
+  // 新規追加: 誰のため/なぜやる/成功条件
+  const handleExtraChange = (e) => {
+    const { name, value } = e.target;
+    setEditableTask((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSave = () => {
     const updatedTask = {
       ...editableTask,
@@ -89,6 +95,38 @@ function TaskDetailModal({ task, onClose, onUpdate }) {
             name="memo"
             value={editableTask.memo}
             onChange={handleChange}
+          />
+        </label>
+
+        {/* 誰のため、なぜやる、成功条件の入力欄を追加 */}
+        <label>
+          誰のため：
+          <input
+            type="text"
+            name="forWhom"
+            value={editableTask.forWhom || ''}
+            onChange={handleExtraChange}
+            placeholder="例：顧客、チーム、自分など"
+          />
+        </label>
+        <label>
+          なぜやる：
+          <input
+            type="text"
+            name="why"
+            value={editableTask.why || ''}
+            onChange={handleExtraChange}
+            placeholder="目的や理由"
+          />
+        </label>
+        <label>
+          成功条件：
+          <input
+            type="text"
+            name="successCriteria"
+            value={editableTask.successCriteria || ''}
+            onChange={handleExtraChange}
+            placeholder="達成の基準やゴール"
           />
         </label>
 

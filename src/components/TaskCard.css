@@ -1,89 +1,118 @@
 .task-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.5rem;
-  /* ← 隣のカードとの余白 */
-  justify-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.2rem 2.2rem; /* 横:2.2rem, 縦:2.2rem の間隔に拡大 */
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 1rem 0;
 }
 
 .task-card {
   width: 100%;
-  max-width: 250px;
-  background: #4d4b4b;
-  border-radius: 16px;
-  padding: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  color: white;
+  max-width: 320px;
+  background: linear-gradient(120deg, #2c3e50 60%, #355c7d 100%);
+  border-radius: 18px;
+  padding: 1.2rem 1.2rem 1rem 1.2rem;
+  box-shadow: 0 6px 24px #355c7daa, 0 1.5px 4px #4f6d7a55;
+  color: #b3e5fc;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  transition: transform 0.2s ease;
+  justify-content: flex-start;
   position: relative;
-  /* ← 重要 */
+  transition: box-shadow 0.2s, transform 0.2s;
+  border: 1.5px solid #4f6d7a;
+  margin-right: 0.2rem; /* 念のためカード自体にもわずかな余白 */
 }
 
 .task-card:hover {
-  transform: translateY(-3px);
+  box-shadow: 0 12px 32px #355c7dcc, 0 2px 8px #4f6d7a88;
+  transform: translateY(-4px) scale(1.02);
+  border-color: #b3e5fc;
 }
 
+.urgent-icon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 24px;
+  height: 24px;
+  z-index: 10;
+}
+
+.task-status-top {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  background: #4f6d7add;
+  color: #b3e5fc !important;
+  padding: 0.2rem 0.7rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px #355c7d44;
+}
 
 .task-main {
   flex-grow: 1;
+  margin-top: 1.5rem;
+}
+
+.task-title {
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: #b3e5fc;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.task-due {
+  font-size: 0.92rem;
+  color: #90caf9;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
 .task-meta {
   display: flex;
-  gap: 1rem;
-  font-size: 0.9rem;
-  color: #ccc;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+  color: #b3e5fc;
+  margin-bottom: 0.5rem;
 }
 
 .badge {
-  background: #eee;
-  color: #333;
-  border-radius: 4px;
-  padding: 0.2rem 0.5rem;
-  margin-right: 0.3rem;
-  margin-bottom: 0.5rem;
-  font-size: 0.85rem;
-}
-
-.due-date {
-  font-weight: bold;
+  background: linear-gradient(90deg, #355c7d 60%, #4f6d7a 100%);
+  color: #b3e5fc;
+  border-radius: 8px;
+  padding: 0.18rem 0.7rem;
+  margin-right: 0.1rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  box-shadow: 0 1px 4px #355c7d33;
 }
 
 .task-status {
   margin-top: 0.4rem;
   font-size: 1rem;
-  color: #aaa;
+  color: #b3e5fc;
 }
 
-.urgent-icon {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  width: 20px;
-  height: auto;
-  z-index: 10;
-}
-
-.task-due {
-  font-size: 0.85rem;
-  color: #ccc;
-  margin-bottom: 4px;
-}
-
-.task-title {
-  font-size: 1.05rem;
-  font-weight: bold;
-  color: #fff;
-  margin-bottom: 4px;
-}
-
-.task-status-top {
+.delete-btn {
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 0.85rem;
-  font-weight: bold;
+  background: transparent;
+  border: none;
+  color: #90caf9;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 50%;
+  transition: background 0.15s;
+  z-index: 20;
+}
+
+.delete-btn:hover {
+  background: #355c7d;
+  color: #e3f2fd;
 }
