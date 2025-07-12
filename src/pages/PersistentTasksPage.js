@@ -54,8 +54,8 @@ function PersistentTasksPage() {
 
   return (
     <div className="page">
-      <h2>永続タスク</h2>
-      <TaskForm onAdd={addTask} type="永続" />
+      <h2>継続タスク</h2>
+      <TaskForm onAdd={addTask} type="継続" />
       <FilterBar
         filter={filter}
         setFilter={setFilter}

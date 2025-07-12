@@ -1,0 +1,102 @@
+import React, { useEffect, useState } from 'react';
+import TaskCard from '../components/TaskCard';
+import TaskDetailModal from '../components/TaskDetailModal';
+import TaskForm from '../components/TaskForm';
+import FilterBar from '../components/FilterBar';
+import { getTasks, saveTasks } from '../utils/taskStorage';
+import { useParams, useNavigate } from 'react-router-dom';
+
+function ProjectRoleTasksPage() {
+  const { type, name } = useParams(); // type: 'project' or 'role', name: project/role名
+  const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [filter, setFilter] = useState({ status: 'すべて', priority: 'すべて' });
+  const [selectedRole, setSelectedRole] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getTasks('deadlineTasks').then((storedTasks) => {
+      if (storedTasks) setTasks(storedTasks);
+    });
+  }, []);
+
+  // CRUD
+  const addTask = (task) => {
+    // 案件/役職情報を自動付与
+    const newTask = {
+      ...task,
+      tags: {
+        ...task.tags,
+        [type]: name
+      }
+    };
+    const updated = [...tasks, newTask];
+    setTasks(updated);
+    saveTasks('deadlineTasks', updated);
+  };
+  const deleteTask = (id) => {
+    const updated = tasks.filter((task) => task.id !== id);
+    setTasks(updated);
+    saveTasks('deadlineTasks', updated);
+  };
+  const handleTaskUpdate = (updatedTask) => {
+    // 編集時も必ず案件・役職名を維持
+    const fixedTags = {
+      ...updatedTask.tags,
+      [type]: name
+    };
+    const newTasks = tasks.map((t) =>
+      t.id === updatedTask.id ? { ...updatedTask, tags: fixedTags } : t
+    );
+    setTasks(newTasks);
+    saveTasks('deadlineTasks', newTasks);
+  };
+  const closeModal = () => setSelectedTask(null);
+
+  // フィルタ
+  const filteredTasks = tasks.filter((task) => {
+    if (type === 'project' && task.tags?.project !== name) return false;
+    if (type === 'role' && task.tags?.role !== name) return false;
+    const matchStatus = filter.status === 'すべて' || task.status === filter.status;
+    const matchPriority = filter.priority === 'すべて' || task.priority === filter.priority;
+    const matchRole = selectedRole === '' || task.tags?.role === selectedRole;
+    const matchCategory = selectedCategory === '' || task.tags?.category === selectedCategory;
+    return matchStatus && matchPriority && matchRole && matchCategory;
+  });
+
+  return (
+    <div className="page">
+      <button onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }}>← 戻る</button>
+      <h2>{type === 'project' ? `案件: ${name}` : `役職: ${name}`} のタスク</h2>
+      <TaskForm onAdd={addTask} type="期限付き" />
+      <FilterBar
+        filter={filter}
+        setFilter={setFilter}
+        selectedRole={selectedRole}
+        setSelectedRole={setSelectedRole}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
+      <div className="task-list">
+        {filteredTasks.map((task) => (
+          <TaskCard
+            key={task.id}
+            task={task}
+            onDelete={() => deleteTask(task.id)}
+            onClick={() => setSelectedTask(task)}
+          />
+        ))}
+      </div>
+      {selectedTask && (
+        <TaskDetailModal
+          task={selectedTask}
+          onClose={closeModal}
+          onUpdate={handleTaskUpdate}
+        />
+      )}
+    </div>
+  );
+}
+
+export default ProjectRoleTasksPage;

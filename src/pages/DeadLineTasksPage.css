@@ -1,0 +1,29 @@
+.deadline-tasks-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2.5rem;
+}
+
+.project-role-manager-fixed {
+  min-width: 320px;
+  max-width: 400px;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  background: none;
+  z-index: 2;
+}
+
+@media (max-width: 900px) {
+  .deadline-tasks-layout {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .project-role-manager-fixed {
+    position: static;
+    min-width: unset;
+    max-width: unset;
+  }
+}
