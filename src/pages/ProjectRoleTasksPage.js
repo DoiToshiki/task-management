@@ -82,11 +82,18 @@ function ProjectRoleTasksPage() {
       {['未着手','進行中','レビュー中','連絡済み','待ち','遅延','完了'].map((status) => {
         const group = filteredTasks.filter(task => task.status === status);
         if (group.length === 0) return null;
+        // 締め切り日で昇順ソート（未設定は一番下）
+        const sorted = [...group].sort((a, b) => {
+          if (!a.dueDate && !b.dueDate) return 0;
+          if (!a.dueDate) return 1;
+          if (!b.dueDate) return -1;
+          return a.dueDate.localeCompare(b.dueDate);
+        });
         return (
           <div key={status} style={{ marginBottom: '2.2rem' }}>
             <h3 style={{ color: '#1976d2', marginBottom: '0.7rem' }}>{status}</h3>
             <div className="task-list">
-              {group.map((task) => (
+              {sorted.map((task) => (
                 <TaskCard
                   key={task.id}
                   task={task}
