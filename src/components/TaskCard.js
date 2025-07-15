@@ -17,6 +17,7 @@ function TaskCard({ task, onClick, onDelete }) {
       case '進行中': return '#00aaff';
       case '連絡済み': return '#40e0d0';
       case '待ち': return '#ffcc66';
+      case 'レビュー中': return '#ff9800';
       case '完了': return '#99ff99';
       case '遅延': return '#ff6666';
       default: return '#ffffff';

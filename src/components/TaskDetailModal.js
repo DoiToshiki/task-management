@@ -84,6 +84,7 @@ function TaskDetailModal({ task, onClose, onUpdate }) {
             <option value="進行中">進行中</option>
             <option value="連絡済み">連絡済み</option>
             <option value="待ち">待ち</option>
+            <option value="レビュー中">レビュー中</option>
             <option value="完了">完了</option>
             <option value="遅延">遅延</option>
           </select>

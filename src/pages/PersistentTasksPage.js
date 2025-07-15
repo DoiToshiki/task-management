@@ -4,7 +4,6 @@ import TaskCard from '../components/TaskCard';
 import TaskDetailModal from '../components/TaskDetailModal';
 import FilterBar from '../components/FilterBar';
 import { getTasks, saveTasks } from '../utils/taskStorage';
-import { saveTaskToDB } from '../utils/idb';
 
 function PersistentTasksPage() {
   const [tasks, setTasks] = useState([]);
