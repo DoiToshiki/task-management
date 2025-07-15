@@ -12,6 +12,27 @@ function PersistentTasksPage() {
   const [selectedRole, setSelectedRole] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
 
+  // 締め切り日超過タスクのステータスを自動で遅延に変更
+  useEffect(() => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const updated = tasks.map(task => {
+      if (task.dueDate && task.status !== '完了') {
+        const due = new Date(task.dueDate);
+        const isOverdue = due < today;
+        // 遅延自動化は「完了」以外全て対象、ただし手動変更は妨げない
+        if (isOverdue && task.status !== '遅延') {
+          return { ...task, status: '遅延' };
+        }
+      }
+      return task;
+    });
+    if (JSON.stringify(updated) !== JSON.stringify(tasks)) {
+      setTasks(updated);
+      saveTasks('persistentTasks', updated);
+    }
+  }, [tasks]);
+
   const filteredTasks = tasks.filter((task) => {
     const matchStatus = filter.status === 'すべて' || task.status === filter.status;
     const matchPriority = filter.priority === 'すべて' || task.priority === filter.priority;
