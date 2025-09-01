@@ -100,7 +100,7 @@ function ProjectRoleTasksPage() {
         setSelectedCategory={setSelectedCategory}
       />
       {/* ステータスごとにグループ化して表示 */}
-      {['未着手','進行中','レビュー中','連絡済み','待ち','遅延','完了'].map((status) => {
+      {['未着手', '進行中', 'レビュー中', '連絡済み', '待ち', '遅延', '完了'].map((status) => {
         const group = filteredTasks.filter(task => task.status === status);
         if (group.length === 0) return null;
         // 締め切り日で昇順ソート（未設定は一番下）
